@@ -2,4 +2,11 @@
 
 {% block content %}
 this is where all of the spells will be presented to the user with links to their pages
+<br>
+
+{% for spell in spells %}
+    <a href="/spell/{{ spell.id }}">{{ spell.name }}</a>
+    <br>
+{% endfor %}
+
 {% endblock content %}

@@ -1,13 +1,13 @@
-
 from flask_sqlalchemy import SQLAlchemy
-from SQLAlchemy import Column, Integer, String, Text, ForeignKey
-from main import app
+from flask import Flask
+
+app = Flask(__name__)
 
 app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///spells.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
 
+db = SQLAlchemy(app)
 
 class Spell (db.Model):
     __tablename__ = "Spell"

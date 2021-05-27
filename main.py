@@ -1,9 +1,11 @@
 from flask import Flask, render_template, redirect, request
-from flask_sqlalchemy import SQLAlchemy
 
-import sqlite3 #only needed for testing, SQLAlchemy will do heavy lifting later on. 
 
-app = Flask(__name__)
+
+
+
+from models import app, Spell
+
 
 @app.route("/")
 @app.route("/home")
@@ -12,11 +14,14 @@ def hello():
 
 @app.route("/spells")
 def all_spells():
-    return render_template("all_spells.html")
+    spells = Spell.query.all()
+
+    return render_template("all_spells.html", spells = spells)
 
 @app.route("/spell/<id>")
 def spell(id):
-    return render_template("spell.html", id=id)
+    spell = Spell.query.filter_by(id=id).first_or_404()
+    return render_template("spell.html", spell=spell)
 
 @app.route("/casters")
 def all_casters():
@@ -26,11 +31,14 @@ def all_casters():
 def caster(id):
     return render_template("caster.html", id=id)
 
-
-
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+
+
+
+
+
 
 
 if __name__ == "__main__":
