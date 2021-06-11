@@ -1,7 +1,16 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    this is where information for each specific spell will be placed
+    
+    <h1>{{ spell.Spell.name }}</h1>
+    <br>
+    {% if spell.level == 0 %}
+        A {{ spell.school}} cantrip
+    {% else %}
+        A level {{ spell.level }} {{ spell.school }}
+    {% endif %}
+    <br>
     <h1>{{ spell.name }}</h1>
+    <br>
     {{ spell.description }}
 {% endblock content %}

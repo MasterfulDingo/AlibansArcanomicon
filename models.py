@@ -29,6 +29,7 @@ class Range (db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String())
 
+
 class Duration (db.Model):
     __tablename__ = "Duration"
     id = db.Column(db.Integer, primary_key = True)
