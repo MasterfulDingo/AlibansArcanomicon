@@ -4,7 +4,7 @@ from flask import Flask, render_template, redirect, request
 
 
 
-from models import app, Spell, Range
+from models import app, Spell, Range, Duration, Castingtime, School
 
 
 @app.route("/")
@@ -20,10 +20,12 @@ def all_spells():
 
 @app.route("/spell/<int:id>")
 def spell(id):
-    spell = Spell.query\
-        .join(Range, Spell.range==Range.id )\
-        .add_columns(Spell.id, Spell.name, Spell.description, Spell.level, Spell.components, Spell.concentration, Spell.ritual, Spell.damage, Range.name)\
-        .filter_by(id=id).first_or_404()
+    spell = Spell.query.filter_by(id=id).first_or_404()
+        # .join(Range, Spell.range==Range.id)\
+        # .join(Duration, Spell.duration==Duration.id)\
+        # .join(School, Spell.school==School.id)\
+        # .add_columns(Spell.id, Spell.name, Spell.description, Spell.level, Spell.components, Spell.concentration, Spell.ritual, Spell.damage, Range.name, Duration.name, School.name)\
+        
     print(spell)
     return render_template("spell.html", spell=spell)
 

@@ -1,16 +1,31 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    
-    <h1>{{ spell.Spell.name }}</h1>
-    <br>
+
+    <h2>
+        {{ spell.name }}
+        {% if spell.ritual == 1 %} {# if it's a ritual, says so #}
+            (Ritual)
+        {% endif %}
+    </h2>
+
+
     {% if spell.level == 0 %}
-        A {{ spell.school}} cantrip
+        A {{ spell.schools.name }} cantrip
     {% else %}
-        A level {{ spell.level }} {{ spell.school }}
+        A level {{ spell.level }} {{ spell.schools.name }}
     {% endif %}
     <br>
-    <h1>{{ spell.name }}</h1>
+
+    Components: {{ spell.components }} <br>
+    Range: {{ spell.ranges.name }} <br>
+    Duration: 
+    {% if spell.concentration == 1 %} {# takes into account concentration, a mechanic where spells can end early #}
+        up to {{ spell.durations.name }} (concentration) <br>
+    {% else %}
+        {{ spell.durations.name }} <br>
+    {% endif %}
+    Casting time: {{ spell.castingtimes.name }} <br>
     <br>
     {{ spell.description }}
 {% endblock content %}

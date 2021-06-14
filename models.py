@@ -24,11 +24,15 @@ class Spell (db.Model):
     castingtime = db.Column(db.Integer, db.ForeignKey('Castingtime.id'))
     school = db.Column(db.Integer, db.ForeignKey('School.id'))
 
+    ranges = db.relationship('Range', backref='spell')
+    durations = db.relationship('Duration', backref='spell')
+    castingtimes = db.relationship('Castingtime', backref='spell')
+    schools = db.relationship('School', backref='school')
+
 class Range (db.Model):
     __tablename__ = "Range"
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String())
-
 
 class Duration (db.Model):
     __tablename__ = "Duration"
