@@ -1,5 +1,11 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    this page will have information and spells for a single class
+    <h2>{{ caster.name }}</h2>
+    {{ caster.description }}
+    <br>
+    {% for spell in spells %}
+        <a href="/spell/{{ spell.id }}">{{ spell.name }}</a>
+        <br>
+    {% endfor %}
 {% endblock content %}

@@ -1,5 +1,9 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    This is where classes will be presented with some information about them
+    {% for caster in casters %}
+        <h2><a href="/caster/{{ caster.id }}">{{ caster.name }}</a></h2>
+        {{ caster.description }}
+        <br>
+    {% endfor %}
 {% endblock content %}

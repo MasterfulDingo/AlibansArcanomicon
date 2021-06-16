@@ -1,13 +1,25 @@
-from flask_sqlalchemy import SQLAlchemy
-from flask import Flask
+from main import db
 
-app = Flask(__name__)
 
-app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///spells.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
+SpellCaster = db.Table('SpellCaster',
+    db.Column('sid', db.Integer, db.ForeignKey('Spell.id')),
+    db.Column('cid', db.Integer, db.ForeignKey('Caster.id'))
+)
+
+SpellTag = db.Table('SpellTag',
+    db.Column('sid', db.Integer, db.ForeignKey('Spell.id')),
+    db.Column('tid', db.Integer, db.ForeignKey('Tag.id'))
+)
+
+UserSpells = db.Table('UserSpells',
+    db.Column('uid', db.Integer, db.ForeignKey('User.id')),
+    db.Column('sid', db.Integer, db.ForeignKey('Spell.id')),
+    db.Column('userbookid', db.Integer)
+)
+
+
+
 
 class Spell (db.Model):
     __tablename__ = "Spell"
@@ -28,6 +40,8 @@ class Spell (db.Model):
     durations = db.relationship('Duration', backref='spell')
     castingtimes = db.relationship('Castingtime', backref='spell')
     schools = db.relationship('School', backref='school')
+
+    casters = db.relationship('Caster', secondary=SpellCaster, back_populates='spells')
 
 class Range (db.Model):
     __tablename__ = "Range"
@@ -55,6 +69,8 @@ class Caster (db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String())
     description = db.Column(db.Text)
+    
+    spells = db.relationship('Spell', secondary=SpellCaster, back_populates='casters')
 
 class Tag (db.Model):
     __tablename__ = "Tag"
@@ -74,18 +90,3 @@ class User (db.Model):
     spellbook4 = db.Column(db.String(80))
     spellbook5 = db.Column(db.String(80))
 
-SpellCaster = db.Table('SpellCaster',
-    db.Column('sid', db.Integer, db.ForeignKey('Spell.id')),
-    db.Column('cid', db.Integer, db.ForeignKey('Caster.id'))
-)
-
-SpellTag = db.Table('SpellTag',
-    db.Column('sid', db.Integer, db.ForeignKey('Spell.id')),
-    db.Column('tid', db.Integer, db.ForeignKey('Tag.id'))
-)
-
-UserSpells = db.Table('UserSpells',
-    db.Column('uid', db.Integer, db.ForeignKey('User.id')),
-    db.Column('sid', db.Integer, db.ForeignKey('Spell.id')),
-    db.Column('userbookid', db.Integer)
-)

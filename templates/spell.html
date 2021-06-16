@@ -10,22 +10,22 @@
     </h2>
 
 
-    {% if spell.level == 0 %}
-        A {{ spell.schools.name }} cantrip
+    {% if spell.level == 0 %} {# grammatical formatting #}
+        A {{ spell.schools.name }} cantrip {# level 0 spells are also known as cantrips #}
     {% else %}
         A level {{ spell.level }} {{ spell.schools.name }}
     {% endif %}
     <br>
 
-    Components: {{ spell.components }} <br>
-    Range: {{ spell.ranges.name }} <br>
-    Duration: 
+    <b>Components:</b> {{ spell.components }} <br>
+    <b>Range:</b> {{ spell.ranges.name }} <br>
+    <b>Duration:</b> 
     {% if spell.concentration == 1 %} {# takes into account concentration, a mechanic where spells can end early #}
         up to {{ spell.durations.name }} (concentration) <br>
     {% else %}
         {{ spell.durations.name }} <br>
     {% endif %}
-    Casting time: {{ spell.castingtimes.name }} <br>
+    <b>Casting time:</b> {{ spell.castingtimes.name }} <br>
     <br>
     {{ spell.description }}
 {% endblock content %}
