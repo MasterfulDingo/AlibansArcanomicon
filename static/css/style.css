@@ -1,0 +1,79 @@
+
+.navbar{
+    width: 100%;
+    background-color: #333333;
+    /* position: sticky; */
+    margin: 0;
+    padding: 0;
+    top: 0;
+    overflow: hidden;
+}
+.navbar a{
+    display: block;
+    padding: 14px 16px;
+    text-align: center;
+    text-decoration: none;
+    float: left;
+}
+.navbar a.active{
+    background-color: #990100;
+}
+.navbar a:hover{
+    background-color: #B90504;
+}
+
+.sticky{
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.sticky + .main{
+    padding-top: 60px;
+}
+
+
+
+a:link{
+    color: #F6F6F6;
+}
+
+a:visited{
+    color: #F6F6F6;
+}
+
+a:hover{
+    color: #F6F6F6;
+}
+
+a:active{
+    color: #F6F6F6;
+}
+
+
+.spelllist{
+    display: flex;
+    flex-direction: column;
+}
+
+.spelllink{
+    display: block;
+    margin: 5px;
+    overflow: hidden;
+    background-color: #4d4d4d;
+    align-self: center;
+    width: 90%;
+    margin-left: 5%;
+}
+
+.spelllink a{
+    padding: 14px 16px;
+    text-align: left;
+    text-decoration: none;
+    float: left;
+    width: 100%;
+}
+
+.spelllink a:hover{
+    background-color: #B90504;
+}

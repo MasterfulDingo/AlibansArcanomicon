@@ -99,3 +99,10 @@ class User (db.Model): #This table will contain data for all the users that make
     spellbook5 = db.Column(db.String(80))
 
     spells = db.relationship('Spell', secondary=UserSpells, back_populates='users')
+
+"""
+def __repr__(self):
+    return self.name, self.id etc
+
+this function is tacked onto the end of a model and defines what is returned when the table is queried.
+"""

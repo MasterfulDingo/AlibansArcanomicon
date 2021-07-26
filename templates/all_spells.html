@@ -1,10 +1,14 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-
+<div class="spelllist">
     {% for spell in spells %}
-        <a href="/spell/{{ spell.id }}">{{ spell.name }}</a>
-        <br>
+    <div class="spelllink">
+        <a href="/spell/{{ spell.id }}">
+            {{ spell.name }}
+            
+        </a>
+    </div>
     {% endfor %}
-
+</div>
 {% endblock content %}

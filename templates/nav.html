@@ -1,5 +1,25 @@
 <div class="navbar">
-    <a href="/">Home</a>
-    <a href="/spells">Spells</a>
-    <a href="/casters">Casters</a>
+
+    
+    {% if request.path == "/" %}
+        <a href="/" class="active">Home</a>
+    {% else %}
+        <a href="/">Home</a>
+    {% endif %}
+    
+    
+    {% if request.path == "/spells" %}
+        <a href="/spells" class="active">Spells</a>
+    {% else %}
+        <a href="/spells">Spells</a>
+    {% endif %}
+
+
+    
+    {% if request.path == "/casters" %}
+        <a href="/casters" class="active">Casters</a>
+    {% else %}
+        <a href="/casters">Casters</a>
+    {% endif %}
 </div>
+
