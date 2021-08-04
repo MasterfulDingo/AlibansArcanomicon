@@ -4,26 +4,27 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Website for Dungeons and Dragons fifth edition players to view spells on.">
 
     <link rel="stylesheet" href="/static/css/style.css"/>
     <title>Aliban's Arcanomicon</title>
 </head>
 <body>
     <header>{% include 'header.html' %}</header>
-    <nav>{% include 'nav.html' %}</nav>
-    <main>
+    {% include 'nav.html' %}
+    <div class="content">
         {% block content %} {% endblock content %}
-    </main>
+    </div>
     <footer>{% include 'footer.html' %}</footer>
 </body>
 <script>
-    window.onscroll = function() {scrollfunc()};
+    window.onscroll = function() {myFunction()};
 
     var navbar = document.getElementById("navbar");
 
     var sticky = navbar.offsetTop;
 
-    function scrollfunc() {
+    function myFunction() {
         if (window.pageYOffset >= sticky) {
             navbar.classList.add("sticky")
         } else {
