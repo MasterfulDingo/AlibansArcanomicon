@@ -2,16 +2,7 @@
 
 {% block content %}
 
-{% set counter = 1 %}
+    {% include "_spelllist.html" %}
 
-<div class="spelllist">
-    {% for spell in spells %}
-    <div class="spelllink">
-        <a href="/spell/{{ spell.id }}">
-            {{ spell.name }}
-        </a>
-    </div>
-    {% endfor %}
-</div>
 {% endblock content %}
 

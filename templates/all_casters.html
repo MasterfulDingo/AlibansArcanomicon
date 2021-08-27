@@ -1,9 +1,19 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    {% for caster in casters %}
-        <h2><a href="/caster/{{ caster.id }}">{{ caster.name }}</a></h2>
-        {{ caster.description }}
-        <br>
-    {% endfor %}
+    <br>
+    <div class="casters">
+
+        {% for caster in casters %}
+
+        
+                <a href="/caster/{{ caster.id }}" class="caster">
+                <h2>{{ caster.name }}</h2>
+                {{ caster.description }}
+                </a>
+        
+
+        {% endfor %}
+
+    </div>
 {% endblock content %}

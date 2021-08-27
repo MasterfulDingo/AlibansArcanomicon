@@ -1,0 +1,55 @@
+<div id="spellbarshell">
+    <div class="spellbar">
+        <input type="text" id="myInput" onkeyup="searchfilter()" placeholder="Search for spells by name...">
+    </div>
+</div>
+
+
+<div class="spelllist" id="spelllist">
+    {% for spell in spells %}
+    <div class="spelllink">
+        <a href="/spell/{{ spell.id }}">
+            <div class="spellname">
+                {{ spell.name }}
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+
+<script>
+    window.onscroll = function() {myFunction()}; //when window scrolls call on function
+    var spellbar = document.getElementById("spellbarshell");
+    var sticky = spellbar.offsetTop; //finds how much off the div is from the top of the screen
+
+    function myFunction() {
+
+        if (window.pageYOffset >= sticky) { //if the page is scrolled down so part of the div isn't on the screen
+            spellbar.classList.add("stickyspell") //give it the "sticky" class which is styled to be fixed at the top
+        } else {
+            spellbar.classList.remove("stickyspell"); //if not, remove the class
+        }
+    }
+
+
+    function searchfilter() {
+        var intput, filter, spellsraw, spells, spell, i, txtValue
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        spellsraw = document.getElementById("spelllist");
+        spells = spellsraw.getElementsByClassName("spelllink");
+        for (i = 0; i < spells.length; i++ ){
+            spell = spells[i]
+            spellname = spell.getElementsByClassName("spellname")
+            txtValue = spellname[0].innerHTML
+            if (txtValue.toUpperCase().indexOf(filter) > -1){
+                spells[i].style.display = "";
+            } else {
+                spells[i].style.display = "none";
+
+            }
+        }
+    }
+
+</script>

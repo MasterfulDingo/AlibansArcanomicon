@@ -11,24 +11,21 @@
 </head>
 <body>
     <header>{% include 'header.html' %}</header>
-    {% include 'nav.html' %}
+    <nav id="navbar">{% include 'nav.html' %}</nav>
     <div class="content">
         {% block content %} {% endblock content %}
     </div>
     <footer>{% include 'footer.html' %}</footer>
 </body>
 <script>
-    window.onscroll = function() {myFunction()};
-
+    window.onscroll = function() {myFunction()}; //when window scrolls call on function
     var navbar = document.getElementById("navbar");
-
-    var sticky = navbar.offsetTop;
-
+    var sticky = navbar.offsetTop; //finds how much off the div is from the top of the screen
     function myFunction() {
-        if (window.pageYOffset >= sticky) {
-            navbar.classList.add("sticky")
+        if (window.pageYOffset >= sticky) { //if the page is scrolled down so part of the div isn't on the screen
+            navbar.classList.add("stickynav") //give it the "sticky" class which is styled to be fixed at the top
         } else {
-            navbar.classList.remove("sticky");
+            navbar.classList.remove("stickynav"); //if not, remove the class
         }
     }
 </script>

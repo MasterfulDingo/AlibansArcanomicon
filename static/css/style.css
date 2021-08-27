@@ -5,6 +5,10 @@
     box-sizing: border-box;
 }
 
+.body {
+    margin: 0px;
+}
+
 
 /* navbar is an id not a class, to not get in the way of the javascript used to make it sticky */
 #navbar{
@@ -30,22 +34,28 @@
 
 
 /* sets the navbar div to the top of the page when activated by javascript function in "nav.html" */
-.sticky{
+.stickynav{
     position: fixed;
     top: 0;
 }
 
 /* if divs with the class "sticky" and "content" interact, adda a margin (allows for smooth sticky navbar */
-.sticky + .content{
+.stickynav + .content{
     padding-top: 46px; /* WARNING this will need to be changed if I ever change the size of the navbar in any way */
+} 
+
+.stickyspell{
+    position: fixed;
+    top: 60px;
 }
 
-.body {
-    margin: 0px;
+.stickyspell + .spelllist{
+    padding-top: 80px;
 }
 
 a:link{
     color: #F6F6F6;
+    text-decoration: none;
 }
 
 a:visited{
@@ -68,18 +78,33 @@ a:active{
 
 .spelllink{
     display: block;
-    /* margin: 5px; */
+    margin: 5px;
     overflow: hidden;
     align-self: center;
     width: 90%;
+    background-color: #333333;
 }
 
-.spelllink:nth-child(even){
-    background-color: #e6e6e6;
+#spellbarshell {
+    display: flex;
+    flex-direction: column;
 }
-.spelllink:nth-child(odd){
-    background-color: #999999;
+
+.spellbar {
+    display: block;
+    margin: 5px;
+    overflow: hidden;
+    align-self: center;
+    width: 90%;
+    background-color: #990100;
+    padding: 14px 16px
 }
+
+.spellbar input[type=text] {
+    padding: 5px;
+}
+
+
 
 .spelllink a{
     padding: 14px 16px;
@@ -87,18 +112,39 @@ a:active{
     text-decoration: none;
     float: left;
     width: 100%;
-    color: #333333;
     font-family: Scaly Sans Caps;
     font-weight: 600;
 }
 
 .spelllink a:hover{
     background-color: #B90504;
-    color: #F6F6F6;
 }
 
 
 
+
+
+
+
+.casters{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.caster {
+    width: 350px;
+    background-color: #333333;
+    padding: 10px;
+    margin: 5px;
+    text-align: center;
+    display: block;
+}
+
+.caster:hover{
+    background-color: #B90504;
+}
 
 
 h1{

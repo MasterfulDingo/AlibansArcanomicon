@@ -23,7 +23,7 @@ def hello():
 
 @app.route("/spells") #spells page, shows all spells and has links to their individual pages
 def all_spells():
-    spells = models.Spell.query.all()
+    spells = models.Spell.query.order_by(models.Spell.name).all()
 
     return render_template("all_spells.html", spells = spells)
 
@@ -35,7 +35,7 @@ def spell(id):
 
 @app.route("/casters") #casters page, shows all casters, links to their individual pages and has a brief blurb
 def all_casters():
-    casters = models.Caster.query.all()
+    casters = models.Caster.query.order_by(models.Caster.name).all()
 
     return render_template("all_casters.html", casters=casters)
 
@@ -44,6 +44,13 @@ def caster(id):
     caster = models.Caster.query.filter_by(id=id).first_or_404()
     spells = models.Spell.query.filter(models.Spell.casters.any(id=id)).all()
     return render_template("caster.html", caster=caster, spells=spells)
+
+@app.route("/search", methods=("GET","POST"))
+def search():
+    spells = models.Spell.query.order_by(models.Spell.name).all()
+    return render_template("search.html", spells=spells)
+
+
 
 @app.errorhandler(404) #404 handler, if a url for the page is not found the 404 page will be returned
 def page_not_found(e):
