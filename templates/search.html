@@ -2,9 +2,58 @@
 
 {% block content %}
 
-search buttons
-<br>
+    <form method="POST" action="/search">
 
+        <br>
+
+        <p><b>Level:</b>
+        {% for i in range(0,10) %}
+            <input type="checkbox" name="param" value="level_{{i}}">
+            <label for={{i}}>{{i}}</label>
+        {% endfor %}
+        </p>
+
+        <br>
+
+        <p><b>Schools:</b>
+        {% for school in schools %}
+            <input type="checkbox" name="param" value="school_{{school.id}}">
+            <label for="{{school.id}}">{{school.name}}</label>
+        {% endfor %}
+        </p>
+
+        <br>
+
+        <p><b>Concentration:</b>
+            <input type="checkbox" name="param" value="concentration_1">
+            <label for="1">Yes</label>
+            <input type="checkbox" name="param" value="concentration_0">
+            <label for="0">No</label>
+        </p>
+
+        <br>
+
+        <p><b>Ritual:</b>
+            <input type="checkbox" name="param" value="ritual_1">
+            <label for="1">Yes</label>
+            <input type="checkbox" name="param" value="ritual_0">
+            <label for="0">No</label>
+        </p>
+
+        <br>
+
+        <p><b>Casters:</b>
+        {% for caster in casters %}
+        {{ caster.id }}
+            <input type="checkbox" name="param" value="caster_{{caster.id}}">
+            <label for="{{caster.id}}">{{caster.name}}</label>
+        {% endfor %}
+        </p>
+
+        <br>
+
+        <input type="submit" value="submit">
+    </form>
     {% include "_spelllist.html" %}
 
 {% endblock content %}

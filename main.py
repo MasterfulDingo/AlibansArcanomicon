@@ -48,8 +48,81 @@ def caster(id):
 @app.route("/search", methods=("GET","POST"))
 def search():
     spells = models.Spell.query.order_by(models.Spell.name).all()
-    return render_template("search.html", spells=spells)
+    schools = models.School.query.order_by(models.School.name).all()
+    casters = models.Caster.query.order_by(models.Caster.name).all()
+    if request.method == "POST":
+        params = request.form.getlist("param")
+        print(params)
+        # params = ["level_'4'", 'school_conjuration', 'concentration_1', 'ritual_0', 'caster_Bard']
+        spellslists = []
+        spellsets = []
+        levelspellslists = []
+        schoolspellslists= []
+        intersection = True #if user wants intersection, not union
 
+        for param in params:
+            param = param.split("_")
+            print(param[0])
+            if param[0] == "Union":
+                intersection = False
+
+            elif param[0] == "level" or "school":
+                    
+                if param[0] == "level":
+                    templist = models.Spell.query.filter_by(level=param[1]).all()
+                    levelspellslists.append(templist)
+
+                if param[0] == "school":
+                    templist = models.Spell.query.filter_by(school=int(param[1])).all()
+                    schoolspellslists.append(templist)
+                    
+            else:
+
+                if param[0] == "concentration":
+                    templist = models.Spell.query.filter_by(concentration=param[1]).all()
+
+                if param[0] == "ritual":
+                    templist = models.Spell.query.filter_by(ritual=param[1]).all()
+
+                if param[0] == "caster":
+                    # templist = models.Spell.query.filter_by(models.Spell.casters.has(name=param[1])).all()
+                    templist = models.Spell.query.filter(models.Spell.casters.any(id=param[1])).all()
+                    print(templist)
+                spellslists.append(templist)
+        
+        
+        spellsets = set_maker(spellslists)
+
+        if bool(levelspellslists) != False:
+            levelsets = set_maker(levelspellslists)
+            levelspells = levelsets[0].union(*levelsets)
+            spellsets.append(levelspells)
+
+
+        if bool(schoolspellslists) != False:
+            schoolsets = set_maker(schoolspellslists)
+            schoolspells = schoolsets[0].union(*schoolsets)
+            spellsets.append(schoolspells)
+        print(spellsets)
+        
+        if intersection == True:
+            spells = list(spellsets[0].intersection(*spellsets))
+        
+        spells.sort(key=sort_key)
+        
+        return render_template("search.html", spells=spells, schools=schools, casters=casters)
+    return render_template("search.html", spells=spells, schools=schools, casters=casters)
+
+
+def set_maker(inputlists):
+    outputsets = []
+    for inputlist in inputlists:
+        outputset = set(inputlist)
+        outputsets.append(outputset)
+    return outputsets
+
+def sort_key(spell):
+    return spell.name
 
 
 @app.errorhandler(404) #404 handler, if a url for the page is not found the 404 page will be returned
