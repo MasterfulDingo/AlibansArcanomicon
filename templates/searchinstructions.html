@@ -1,10 +1,12 @@
+{# this page presents users instructions on using the parameters found in the /search page, as they have been designed to work from a technical standpoint and some users may be confused as to how they function. #}
+
 {% extends "layout.html" %}
 
 {% block content %}
 <br>
 this is where instructions will be, specifically for the search page.
 <br>
-includes info on the difference between <i>union</i> and <i>intersection</i>.
+includes info on the difference between <i>union</i> and <i>intersection</i>, as well as noting the cases in which each are used (Intersection is the default filter used between parameters, but because most parameters are discrete and spells cannot have multiple values of a single parameter, the union is taken before they are compared to other parameters).
 <br>
 spell tags and classes as well.
 {% endblock content %}

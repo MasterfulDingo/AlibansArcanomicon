@@ -1,3 +1,7 @@
+{# this is a sub-component of the layout page, this file presents a way for users to navigate the website. #}
+
+{# the links each have a nifty piece of jinja which checks if the current requested url is the same as that of the page it leads to, and if so, is presented with a different colour to inform the user where they are on the site. #}
+
 {% if request.path == "/" %}
     <a href="/" class="active">Home</a>
 {% else %}
