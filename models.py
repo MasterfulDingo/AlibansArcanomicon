@@ -90,7 +90,7 @@ class User (db.Model): #This table will contain data for all the users that make
     __tablename__ = "User"
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(80))
-    bio = db.Column(db.Text(280))
+    password = db.Column(db.String())
     validation = db.Column(db.Integer)
     spellbook1 = db.Column(db.String(80))
     spellbook2 = db.Column(db.String(80))

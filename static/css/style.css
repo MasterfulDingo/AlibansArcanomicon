@@ -31,7 +31,10 @@
 #navbar a:hover{
     background-color: #B90504;
 }
-
+.nav_float_right {
+    float: right;
+    background-color: #990100;
+}
 
 /* sets the navbar div to the top of the page when activated by javascript function in "nav.html" */
 .stickynav{
