@@ -12,12 +12,22 @@ SpellTag = db.Table('SpellTag', #joining table between Spell and Tag
     db.Column('tid', db.Integer, db.ForeignKey('Tag.id'))
 )
 
-UserSpells = db.Table('UserSpells', #joining table between Spell and User (User not yet implemented, coming in next phase ish)
-    db.Column('uid', db.Integer, db.ForeignKey('User.id')),
-    db.Column('sid', db.Integer, db.ForeignKey('Spell.id')),
-    db.Column('userbookid', db.Integer)
-)
+# UserSpells = db.Table('UserSpells', #joining table between Spell and User
+#     db.Column('uid', db.Integer, db.ForeignKey('User.id')),
+#     db.Column('sid', db.Integer, db.ForeignKey('Spell.id')),
+#     db.Column('userbookid', db.Integer)
+# )
 
+class UserSpells (db.Model):
+    __tablename__ = "UserSpells"
+
+    sid = db.Column(db.Integer, db.ForeignKey('Spell.id'), primary_key=True)
+    uid = db.Column(db.Integer, db.ForeignKey('User.id'), primary_key=True)
+
+    userbookid = db.Column(db.Integer)
+
+    spell = db.relationship('Spell', back_populates="users")
+    user = db.relationship('User', back_populates="spells")
 
 
 
@@ -47,7 +57,7 @@ class Spell (db.Model): #main table in my database, this is the main table I que
     #these are objects created with SQLAlchemy to facilitate many-many queries. note that the syntax is different to one-many relationships, they reference a secondary table (defined at the top of this file.)
     casters = db.relationship('Caster', secondary=SpellCaster, back_populates='spells')
     tags = db.relationship('Tag', secondary=SpellTag, back_populates='spells')
-    users = db.relationship('User', secondary=UserSpells, back_populates='spells')
+    users = db.relationship('UserSpells', back_populates='spell')
 
 class Range (db.Model):
     __tablename__ = "Range"
@@ -98,7 +108,7 @@ class User (db.Model): #This table will contain data for all the users that make
     spellbook4 = db.Column(db.String(80))
     spellbook5 = db.Column(db.String(80))
 
-    spells = db.relationship('Spell', secondary=UserSpells, back_populates='users')
+    spells = db.relationship('UserSpells', back_populates='user')
 
 """
 def __repr__(self):

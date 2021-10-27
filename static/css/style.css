@@ -125,7 +125,16 @@ a:active{
 
 
 
-
+/* making the footer look nice and stand out, so that users will read the important legal disclaimer on it */
+.footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #990100;
+    color: #F6F6F6;
+    text-align: center;
+}
 
 
 

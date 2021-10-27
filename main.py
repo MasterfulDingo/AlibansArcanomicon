@@ -14,6 +14,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # creating the object db, which is used by SQLAlchemy to access the database
 db = SQLAlchemy(app)
 
+spellbookindex = {'spellbook1':1, 'spellbook2':2, 'spellbook3':3, 'spellbook4':4, 'spellbook5':5}
+
 
 import models
 
@@ -36,34 +38,34 @@ def add_current_user(): # function to create a user session
         return dict(current_user = models.User.query.get(session['user']))
     return dict(current_user = None)
 
-@app.route('/login', methods = ['GET', 'POST'])
+@app.route("/login", methods = ['GET', 'POST'])
 def login():
     if request.method == 'POST': # if POST method then the form data will be compared to whats in the db, user will be logged in if inputted data matches
         user = models.User.query.filter(models.User.name == request.form.get('username')).first() # checks the username input against database
         if user and check_password_hash(user.password, request.form.get('password')):
             session['user'] = user.id
-            return redirect ('/') # redirect to home
+            return redirect ('/user') # redirect to home
         else:
-            return render_template('login.html', error = 'username or password incorrect')
-    return render_template('login.html')
+            return render_template("login.html", error = 'username or password incorrect')
+    return render_template("login.html")
 
-@app.route('/logout')
+@app.route("/logout")
 def logout():
     try:
         session.pop('user') # removes user session
     except: # returns an error if the user tries to type in logout route whilst not logged in
-        return redirect(url_for('login', error='not currently logged in')) 
+        return redirect(url_for("login", error='not currently logged in')) 
     return redirect('/')
 
-@app.route('/createaccount', methods = ['GET', 'POST']) 
+@app.route("/createaccount", methods = ['GET', 'POST']) 
 def createaccount():
     if request.method == 'POST':
         if 5 > len(request.form.get('username')) > 20: # if the length of the inputted username is lesser than 5 and greater than 12 (characters)
-            return render_template('createaccount.html', error = 'username must be between 5 and 12 characters') # account will not be created with said username and user is prompted to input a shorter/longer username     
+            return render_template("createaccount.html", error = 'username must be between 5 and 12 characters') # account will not be created with said username and user is prompted to input a shorter/longer username     
         elif models.User.query.filter(models.User.name == request.form.get('username')).first(): # if the username already exists in the db
-            return render_template('createaccount.html', error = 'username already in use') # account will not be created and user is prompted to use a different username
+            return render_template("createaccount.html", error = 'username already in use') # account will not be created and user is prompted to use a different username
         elif len(request.form.get('password')) < 7: # if length of inputted password is less than 7 it will not be accepted
-            return render_template('createaccount.html', error = 'password must be a minimum of 7 characters') 
+            return render_template("createaccount.html", error = 'password must be a minimum of 7 characters') 
         else:
             user_info = models.User (
                 name = request.form.get('username'), # takes username from form
@@ -73,24 +75,33 @@ def createaccount():
                 )
             db.session.add(user_info)
             db.session.commit()
-    return render_template('createaccount.html')
+    return render_template("createaccount.html")
 
 
 @app.route("/user")
 def userpage():
     user = current_user()
-    print(user.spellbook1)
     if user == False:
-        return redirect(url_for('login', error='not currently logged in'))
-    return render_template('userpage.html', user=user)
+        return redirect(url_for("login", error='not currently logged in'))
+    return render_template("userpage.html", user=user)
 
 
-@app.route("/user/<int:id>")
-def spellbook(id):
+@app.route("/user/<int:spellbook>")
+def spellbook(spellbook):
     user = current_user()
     if user == False:
-        return redirect(url_for('login', error='not currently logged in'))
-    return render_template('spellbook.html', spellbookid=id)
+        return redirect(url_for("login", error='not currently logged in'))
+    spellbooklist = [user.spellbook1, user.spellbook2, user.spellbook3, user.spellbook4, user.spellbook5]
+    for i in range(1,6):
+        if i == spellbook and bool(spellbooklist[i-1]) != False: #adjusting for zero indexing between list and url
+            spells = models.Spell.query.filter((models.Spell.users.any(uid=user.id))&(models.UserSpells.userbookid==i)).all()
+
+            # spells = models.Spell.query.filter(models.Spell.casters.any(id=id)).all()
+            print(spells)
+            return render_template("spellbook.html", spellbook=spellbooklist[i-1], spells = spells)
+# cases = session.query(Case.id, Case.num,Cas.type,UserCaseLink.role).filter((Case.id==UserCaseLink.case_id)&(User.id==UserCaseLink.user_id)&(User.first=='Alex')&(UserCaseLink.role=='Administrator').all()
+
+    return render_template("404.html", error = 'This spellbook has not, or cannot, be created.'), 404
 
 
 @app.route("/spells") # spells page, shows all spells and has links to their individual pages
