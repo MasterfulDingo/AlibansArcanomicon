@@ -2,7 +2,21 @@
 
 {% block content %}
 
-{{ spellbook }}
+
+    <h2>{{ spellbook }}</h2>
+    
+    <br>
+    {{ error }}
+
+    <form method='POST' action='/user/{{ id }}' name='changespellbookname'>
+        <input type='text' name='spellbook' placeholder='enter a new spellbook name...'>
+        <input type='hidden' value='{{ id }}' name='spellbooknum'>
+        <input type='submit' class='button' value='change spellbook name'>
+    </form>
+
+
+
+
 <br>
 {% include '_spelllist.html' %}
 

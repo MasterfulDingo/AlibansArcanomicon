@@ -70,7 +70,6 @@ def createaccount():
             user_info = models.User (
                 name = request.form.get('username'), # takes username from form
                 password = generate_password_hash(request.form.get('password'), salt_length = 10), # takes password inputted in form and salts and hashes it for encryption
-                bio = "test string",
                 validation = 0,
                 )
             db.session.add(user_info)
@@ -78,15 +77,50 @@ def createaccount():
     return render_template("createaccount.html")
 
 
-@app.route("/user")
+def editspellbookname(user,spellbookname,spellbooknumber):
+    if bool(spellbookname) == False: #check to see if null result was submitted
+        return "nullname"
+    elif  len(spellbookname) < 5 or len(spellbookname) > 30: #making sure the name isn't too big or small
+        return "namelen"
+    else:
+        userspellbook = models.User.query.filter_by(name=user.name).first()
+        if spellbooknumber == 1:
+            userspellbook.spellbook1 = spellbookname
+        elif spellbooknumber == 2:
+            userspellbook.spellbook2 = spellbookname
+        elif spellbooknumber == 3:
+            userspellbook.spellbook3 = spellbookname
+        elif spellbooknumber == 4:
+            userspellbook.spellbook4 = spellbookname
+        elif spellbooknumber == 5:
+            userspellbook.spellbook5 = spellbookname
+        db.session.merge(userspellbook)
+        db.session.commit()
+        return "okay"
+
+@app.route("/user", methods = ['GET', 'POST'])
 def userpage():
     user = current_user()
     if user == False:
         return redirect(url_for("login", error='not currently logged in'))
+    if request.method == 'POST':
+        spellbookname = request.form.get('spellbook')
+        spellbooknumber = int(request.form.get('spellbooknum')) #if users alter this value so it cannot be converted into an integer this will break, possibly badly. this will require inspect to do
+        
+        action = editspellbookname(user,spellbookname,spellbooknumber)
+
+        if action == "nullname":
+            return render_template("userpage.html", error = 'Please enter a name into the text field', user = user)
+        elif action == "namelen":
+            return render_template("userpage.html", error = 'name must be between 5 and 30 characters!', user = user)
+        elif action == "okay":
+            return render_template("userpage.html", user=user)
     return render_template("userpage.html", user=user)
 
 
-@app.route("/user/<int:spellbook>")
+
+
+@app.route("/user/<int:spellbook>", methods = ['GET', 'POST'])
 def spellbook(spellbook):
     user = current_user()
     if user == False:
@@ -94,12 +128,24 @@ def spellbook(spellbook):
     spellbooklist = [user.spellbook1, user.spellbook2, user.spellbook3, user.spellbook4, user.spellbook5]
     for i in range(1,6):
         if i == spellbook and bool(spellbooklist[i-1]) != False: #adjusting for zero indexing between list and url
-            spells = models.Spell.query.filter((models.Spell.users.any(uid=user.id))&(models.UserSpells.userbookid==i)).all()
+            spells = models.Spell.query.filter(models.Spell.users.any(models.UserSpells.userbookid==i), models.Spell.users.any(uid=user.id)).all()
 
-            # spells = models.Spell.query.filter(models.Spell.casters.any(id=id)).all()
-            print(spells)
-            return render_template("spellbook.html", spellbook=spellbooklist[i-1], spells = spells)
-# cases = session.query(Case.id, Case.num,Cas.type,UserCaseLink.role).filter((Case.id==UserCaseLink.case_id)&(User.id==UserCaseLink.user_id)&(User.first=='Alex')&(UserCaseLink.role=='Administrator').all()
+            if request.method == 'POST':
+                spellbookname = request.form.get('spellbook')
+                spellbooknumber = int(request.form.get('spellbooknum')) #if users alter this value so it cannot be converted into an integer this will break, possibly badly. this will require inspect to do
+                
+                action = editspellbookname(user,spellbookname,spellbooknumber)
+
+                if action == "nullname":
+                    return render_template("spellbook.html", spellbook=spellbooklist[i-1], spells = spells, id = spellbook, error = 'Please enter a name before creating that spellbook', user = user)
+                elif action == "namelen":
+                    return render_template("spellbook.html", spellbook=spellbooklist[i-1], spells = spells, id = spellbook, error = 'name must be between 5 and 30 characters!', user = user)
+                elif action == "okay":
+                    return render_template("spellbook.html", spellbook=spellbooklist[i-1], spells = spells, id = spellbook)
+            
+            return render_template("spellbook.html", spellbook=spellbooklist[i-1], spells = spells, id = spellbook)
+
+
 
     return render_template("404.html", error = 'This spellbook has not, or cannot, be created.'), 404
 
@@ -107,6 +153,7 @@ def spellbook(spellbook):
 @app.route("/spells") # spells page, shows all spells and has links to their individual pages
 def all_spells():
     spells = models.Spell.query.order_by(models.Spell.name).all()
+
     return render_template("all_spells.html", spells = spells)
 
 

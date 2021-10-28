@@ -6,24 +6,56 @@
 <br>
 {{ user.id }}
 <br>
+<desc> {{ error }} </desc>
+<br>
 {% if user.spellbook1 is defined and user.spellbook1 is not none %}
     <a href="/user/1">{{ user.spellbook1 }}</a>
+{% else %}
+    <form method='POST' action='/user' name='createspellbook'>
+        <input type='text' name='spellbook' placeholder='enter spellbook name here...'>
+        <input type='hidden' value='1' name='spellbooknum'>
+        <input type='submit' class='button' value='create spellbook'>
+    </form>
 {% endif %}
 <br>
 {% if user.spellbook2 is defined and user.spellbook2 is not none %}
     <a href="/user/2">{{ user.spellbook2 }}</a>
+{% else %}
+    <form method='POST' action='/user' name='createspellbook'>
+        <input type='text' name='spellbook' placeholder='enter spellbook name here...'>
+        <input type='hidden' value='2' name='spellbooknum'>
+        <input type='submit' class='button' value='create spellbook'>
+    </form>
 {% endif %}
 <br>
 {% if user.spellbook3 is defined and user.spellbook3 is not none %}
     <a href="/user/3">{{ user.spellbook3 }}</a>
+{% else %}
+    <form method='POST' action='/user' name='createspellbook'>
+        <input type='text' name='spellbook' placeholder='enter spellbook name here...'>
+        <input type='hidden' value='3' name='spellbooknum'>
+        <input type='submit' class='button' value='create spellbook'>
+    </form>
 {% endif %}
 <br>
 {% if user.spellbook4 is defined and user.spellbook4 is not none %}
     <a href="/user/4">{{ user.spellbook4 }}</a>
+{% else %}
+    <form method='POST' action='/user' name='createspellbook'>
+        <input type='text' name='spellbook'  placeholder='enter spellbook name here...'>
+        <input type='hidden' value='4' name='spellbooknum'>
+        <input type='submit' class='button' value='create spellbook'>
+    </form>
 {% endif %}
 <br>
 {% if user.spellbook5 is defined and user.spellbook5 is not none %}
     <a href="/user/5">{{ user.spellbook5 }}</a>
+{% else %}
+    <form method='POST' action='/user' name='createspellbook'>
+        <input type='text' name='spellbook' placeholder='enter spellbook name here...'>
+        <input type='hidden' value='5' name='spellbooknum'>
+        <input type='submit' class='button' value='create spellbook'>
+    </form>
 {% endif %}
 
 
