@@ -29,9 +29,12 @@
     <a href="/search">Search</a>
 {% endif %}
 
-
 <div class="nav_float_right">
-
+{% if user is false %}
+    <a href="/createaccount">create account</a>
     <a href="/login">login</a>
-
+{% else %}
+    <a href="/user">logged in as {{ user.name }}</a>
+    <a href='/logout'>log out</a>
+{% endif %}
 </div>

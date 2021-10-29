@@ -88,6 +88,8 @@ a:active{
     background-color: #333333;
 }
 
+
+
 #spellbarshell {
     display: flex;
     flex-direction: column;
@@ -109,6 +111,35 @@ a:active{
 
 
 
+.spellbook {
+    display: block;
+    margin: 5px;
+    overflow: hidden;
+    align-self: center;
+    width: 90%;
+    background-color: #333333;
+}
+
+.spellbook a{
+    padding: 14px 16px;
+    text-align: left;
+    text-decoration: none;
+    float: left;
+    width: 100%;
+    font-family: Scaly Sans Caps;
+    font-weight: 600;
+    background-color: #333333;
+}
+
+.spellbook input[type=text] {
+    padding: 14px 16px
+}
+.spellbook a:hover{
+    background-color: #B90504;
+}
+
+
+
 .spelllink a{
     padding: 14px 16px;
     text-align: left;
@@ -125,6 +156,9 @@ a:active{
 
 
 
+
+
+
 /* making the footer look nice and stand out, so that users will read the important legal disclaimer on it */
 .footer{
     position: fixed;
@@ -135,7 +169,6 @@ a:active{
     color: #F6F6F6;
     text-align: center;
 }
-
 
 
 .casters{
